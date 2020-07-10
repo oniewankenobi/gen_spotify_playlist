@@ -17,9 +17,8 @@ class gen_playlist:
         self.song_info = {}
 
     def get_yt_client(self):
-        # log into youtube, copied from yt data api
+        # copied from yt data api
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
         api_service_name = "youtube"
         api_version = "v3"
         client_secrets_file = "client_secret.json"
@@ -30,8 +29,7 @@ class gen_playlist:
         credentials = flow.run_console()
 
         # from the youtube data api
-        youtube_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
-
+        yt_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
         return yt_client
 
     def get_liked_vids(self):
@@ -74,9 +72,7 @@ class gen_playlist:
         )
         response_json = response.json()
         songs = response_json["tracks"]["items"]
-
         uri = songs[0]["uri"]
-
         return uri
 
     def create_playlist(self):
@@ -96,7 +92,6 @@ class gen_playlist:
             }
         )
         response_json = response.json()
-
         return response_json["id"]
 
     def add_song(self):
