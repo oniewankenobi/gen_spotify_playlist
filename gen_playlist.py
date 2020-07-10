@@ -8,6 +8,7 @@ import googleapiclient.errors
 import requests
 import youtube_dl
 
+from exception import ResponseException
 from private_token import spotify_user_id, spotify_token
 
 class gen_playlist:
@@ -115,6 +116,13 @@ class gen_playlist:
                 "Authorization": "Bearer {}".format(spotify_token)
             }
         )
+
+        # check valid response
+        if response.status_code != 200:
+            raise ResponseException(response.status_code)
+
+        response_json = response.json()
+        return response_json
 
 if __name__ == '__main__':
     hi = create_playlist()
